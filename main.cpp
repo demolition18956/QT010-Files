@@ -7,15 +7,23 @@ int main(int argc, char* argv[])
 	{
 		qDebug() << "Error -- file does not exist";
 	}
-	else if (!someFile.open(QIODevice::ReadOnly))
+	else if (!someFile.open(QIODevice::ReadOnly |
+			 QIODevice::Text))
 	{
 		qDebug() << "Error -- unable to open file for input";
 	}
 	else
 	{
 		qDebug() << "File opened for input successfully";
+		QTextStream someStream(&someFile);
+		QString someValue;
+		while (!someStream.atEnd())
+		{
+			someStream >> someValue;
+			qDebug() << someValue;
+		}
+		someFile.close();
 	}
-	someFile.close();
 	
 	return 0;
 }
